@@ -16,6 +16,16 @@
             }
         });
 
+        function getQueryVariable(variable) {
+               var query = window.location.search.substring(1);
+               var vars = query.split("&");
+               for (var i=0;i<vars.length;i++) {
+                       var pair = vars[i].split("=");
+                       if(pair[0] == variable){return pair[1];}
+               }
+               return(false);
+        }
+
         // "SHOW MAP" BUTTON
         $("#map").on("click", function() {
         	$("#shutter").fadeOut();
@@ -116,7 +126,6 @@
                 e.preventDefault();
                 var value = $(this).html();
                 var n = $(this).attr("data-type");
-                console.log(n);
                 $(".dropdown-toggle[data-type='" + n + "']").toggleClass("flipped");
                 if ($(this).attr("class") === "country-name c-1") {
                     $("#country-1").val(value);
@@ -163,6 +172,18 @@
     			drawChart(s, 2);
     		});
 
+            $("#share").on("click", function() {
+                var l = $("#pie-1").attr("data-type");
+                var r = $("#pie-2").attr("data-type");
+                $("#sharer").fadeIn();
+                $("#sharer input").val("http://fabianschultz.com/women-in-parliaments?l=" + l + "&r=" + r);
+                $("#sharer input").select();
+            });
+
+            $("#sharer a").on("click", function() {
+                $("#sharer").fadeOut();
+            });
+
             // FUNCTION TO DRAW A CHART (COUNTRY;ID)
 			function drawChart(c, p) {
 				var men = 100 - statesArray[c][1];
@@ -187,6 +208,7 @@
 				};
 
 				var chart = new google.visualization.PieChart(document.getElementById('pie-' + p));
+                $("#pie-" + p).attr("data-type", c);
 				chart.draw(data, options);
 			}
 
@@ -214,11 +236,23 @@
 
             var k = Math.round(Math.random() * (statesArray.length - 0));
             var l = Math.round(Math.random() * (statesArray.length - 0));
-            $(".search-field[data-type='1']").val(statesArray[k][0]);
-            $(".search-field[data-type='2']").val(statesArray[l][0]);
 
-			google.setOnLoadCallback(drawChart(k, 1));
-			google.setOnLoadCallback(drawChart(l, 2));
+            var country1 = parseInt(getQueryVariable("l"));
+            var country2 = parseInt(getQueryVariable("r"));
+
+            if (isNaN(country1) || isNaN(country2)) {
+                google.setOnLoadCallback(drawChart(k, 1));
+                google.setOnLoadCallback(drawChart(l, 2));
+                $(".search-field[data-type='1']").val(statesArray[k][0]);
+                $(".search-field[data-type='2']").val(statesArray[l][0]);
+            } else {
+                google.setOnLoadCallback(drawChart(country1, 1));
+                google.setOnLoadCallback(drawChart(country2, 2));
+                $(".search-field[data-type='1']").val(statesArray[country1][0]);
+                $(".search-field[data-type='2']").val(statesArray[country2][0]);
+            }
+
+			
 			drawRegionsMap();
             $("#loader").fadeOut();
         });
