@@ -1,0 +1,48 @@
+<html>
+  <head>
+    <!--Load the AJAX API-->
+    <link rel="stylesheet" href="css/main.css">
+  </head>
+
+  <body style="opacity:1">
+    <div id="loader"></div>
+
+    <div id="content">
+        <h2>Comparing Nations</h2>
+        <h1 id="average">What's the share of <span>women</span> and <span>men</span></br>in national parliaments?</h1>
+        <div id="stats">
+        <input type="text" id="country-1" class="search-field" data-type="1" value="Germany" />
+        <div class="dropdown-toggle" data-type="1"></div>
+        <div class="dropdown-toggle" data-type="2"></div>
+        <input type="text" id="country-2" class="search-field" data-type="2" value="Switzerland"/>
+
+        <span id="versus">VS</span>
+        <a href="#" id="randomize">Randomize</a>
+        <a href="#" id="map">Show map</a>
+
+        <div class="dropdown" data-type="1">
+            <div class="no-results">No results</div>
+        </div>
+        <div class="dropdown" data-type="2"></div>
+
+        <div class="pie" id="pie-1"></div>
+        <div class="pie" id="pie-2"></div>
+    </div>
+        <footer>
+          <p>
+            Frequently updated data by <a href="//unstats.un.org/UNSD/MDG/SeriesDetail.aspx?srid=557">unstats.un.org</a>. Powered by <a href="//google-developers.appspot.com/chart/">Google Charts</a> and <a href="//www.kimonolabs.com/">kimonolabs</a>.
+          </p>
+        </footer>
+    </div>
+    <span id="map-title">What's the share of women in national parliaments?</span>
+    <a href="#" id="hide-map">&larr; Go Back</a>
+    <div id="shutter"></div>
+    <div id="world"></div>
+    <script type="text/javascript" src="js/jsapi.js"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+
+    <script src="//use.typekit.net/kkl8xji.js"></script>
+    <script>try{Typekit.load();}catch(e){}</script>
+  </body>
+</html>
